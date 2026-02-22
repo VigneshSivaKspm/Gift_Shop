@@ -5,6 +5,7 @@ export interface Product {
   retailPrice: number;
   resellerPrice: number;
   discountPrice: number;
+  sellingPrice: number;
   costPrice: number;
   onOffer: boolean;
   stock: number;
@@ -15,11 +16,19 @@ export interface Product {
   rating: number;
   reviews: number;
   discount?: number;
+  needsCustomerName?: boolean;
+  needsCustomerPhoto?: boolean;
+}
+
+export interface CartItemCustomization {
+  customerName?: string;
+  customerPhotoUrl?: string;
 }
 
 export interface CartItem {
   product: Product;
   quantity: number;
+  customization?: CartItemCustomization;
 }
 
 export interface User {
@@ -65,6 +74,7 @@ export interface Order {
   orderType: "online" | "offline" | "reseller";
   createdAt: Date;
   updatedAt: Date;
+  hasCustomizations?: boolean;
 }
 
 export interface Category {

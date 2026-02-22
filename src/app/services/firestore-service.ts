@@ -331,11 +331,27 @@ export async function deleteCategory(categoryId: string): Promise<void> {
 
 export async function createOrder(order: Omit<Order, "id">): Promise<string> {
   try {
-    const docRef = await addDoc(collection(firestore, "orders"), {
+    const orderPayload = {
       ...order,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
-    });
+    };
+
+    // Write to top-level orders collection
+    const docRef = await addDoc(collection(firestore, "orders"), orderPayload);
+
+    // Also write to customers/{customerId}/orders/{orderId} subcollection
+    if (order.customerId && order.customerId !== "guest") {
+      const customerOrderRef = doc(
+        firestore,
+        "customers",
+        order.customerId,
+        "orders",
+        docRef.id,
+      );
+      await setDoc(customerOrderRef, { ...orderPayload, id: docRef.id });
+    }
+
     return docRef.id;
   } catch (error) {
     console.error("Error creating order:", error);

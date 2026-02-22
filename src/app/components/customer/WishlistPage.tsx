@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Heart, ShoppingCart, ArrowRight, Trash2 } from "lucide-react";
+import React from "react";
+import { Heart, ArrowRight, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
-import { Card, CardContent } from "../ui/card";
-import { mockProducts } from "../../data/mockData";
 import { ProductCard } from "./ProductCard";
 import { useApp } from "../../context/AppContext";
 
@@ -11,12 +9,8 @@ interface WishlistPageProps {
 }
 
 export function WishlistPage({ onNavigate }: WishlistPageProps) {
-  const { addToCart, wishlist, removeFromWishlist } = useApp();
+  const { addToCart, wishlist, removeFromWishlist, products } = useApp();
   const wishlistItems = wishlist;
-
-  const handleAddToCart = (product: any) => {
-    addToCart(product, 1);
-  };
 
   const handleRemoveFromWishlist = (productId: string) => {
     removeFromWishlist(productId);
@@ -46,7 +40,7 @@ export function WishlistPage({ onNavigate }: WishlistPageProps) {
         {wishlistItems.length > 0 ? (
           <>
             {/* Wishlist Items Grid */}
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-8 md:mb-12">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-8 md:mb-12">
               {wishlistItems.filter(Boolean).map((product) => (
                 <div key={product?.id} className="relative group">
                   <ProductCard product={product} onNavigate={onNavigate} />
@@ -93,10 +87,10 @@ export function WishlistPage({ onNavigate }: WishlistPageProps) {
               <h3 className="text-xl md:text-2xl font-bold text-[#1a2332] mb-4 md:mb-6">
                 You might also like
               </h3>
-              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-                {mockProducts
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+                {products
                   .filter((p) => p && !wishlistItems.find((w) => w.id === p.id))
-                  .slice(0, 4)
+                  .slice(0, 5)
                   .map((product) =>
                     product ? (
                       <ProductCard

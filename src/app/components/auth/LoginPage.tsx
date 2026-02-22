@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { Mail, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Card, CardContent } from '../ui/card';
-import { useApp } from '../../context/AppContext';
-import { signInWithEmail, signUpWithEmail, signInWithGoogle } from '../../services/auth-service';
+import React, { useState } from "react";
+import { Mail, Lock, User as UserIcon, AlertCircle } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Card, CardContent } from "../ui/card";
+import { useApp } from "../../context/AppContext";
+import {
+  signInWithEmail,
+  signUpWithEmail,
+  signInWithGoogle,
+} from "../../services/auth-service";
 
 interface LoginPageProps {
   onNavigate: (page: string) => void;
@@ -13,18 +17,17 @@ interface LoginPageProps {
 export function LoginPage({ onNavigate }: LoginPageProps) {
   const { setUser } = useApp();
   const [isLogin, setIsLogin] = useState(true);
-  const [userType, setUserType] = useState<'customer' | 'reseller'>('customer');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
+    name: "",
+    email: "",
+    password: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
 
     try {
@@ -33,52 +36,54 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
         user = await signInWithEmail(formData.email, formData.password);
       } else {
         if (!formData.name) {
-          setError('Please enter your name');
+          setError("Please enter your name");
           setIsLoading(false);
           return;
         }
-        user = await signUpWithEmail(formData.email, formData.password, formData.name, userType);
+        user = await signUpWithEmail(
+          formData.email,
+          formData.password,
+          formData.name,
+          "customer",
+        );
       }
-      
+
       setUser(user);
-      setFormData({ name: '', email: '', password: '' });
-      onNavigate('home');
+      setFormData({ name: "", email: "", password: "" });
+      onNavigate("home");
     } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please try again.');
-      console.error('Auth error:', err);
+      setError(err.message || "Authentication failed. Please try again.");
+      console.error("Auth error:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
-    setError('');
+    setError("");
     setIsLoading(true);
 
     try {
-      const user = await signInWithGoogle(userType);
+      const user = await signInWithGoogle("customer");
       setUser(user);
-      onNavigate('home');
+      onNavigate("home");
     } catch (err: any) {
-      setError(err.message || 'Google login failed. Please try again.');
-      console.error('Google login error:', err);
+      setError(err.message || "Google login failed. Please try again.");
+      console.error("Google login error:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0066cc] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="bg-white inline-block px-6 py-3 rounded-2xl mb-4">
-            <span className="text-2xl font-bold text-[#2563EB]">GiftShop</span>
-          </div>
-          <h2 className="text-3xl font-bold text-white mb-2">
-            {isLogin ? 'Welcome Back' : 'Create Account'}
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">
+            {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
-          <p className="text-blue-100">
-            {isLogin ? 'Login to your account' : 'Sign up to get started'}
+          <p className="text-slate-600">
+            {isLogin ? "Login to your account" : "Sign up to get started"}
           </p>
         </div>
 
@@ -92,32 +97,6 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
               </div>
             )}
 
-            {/* User Type Selection */}
-            <div className="flex gap-4 mb-6">
-              <button
-                onClick={() => setUserType('customer')}
-                disabled={isLoading}
-                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
-                  userType === 'customer'
-                    ? 'bg-[#2563EB] text-white shadow-md'
-                    : 'bg-[#EFF6FF] text-[#2563EB] hover:bg-[#DBEAFE]'
-                } disabled:opacity-50`}
-              >
-                Customer
-              </button>
-              <button
-                onClick={() => setUserType('reseller')}
-                disabled={isLoading}
-                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
-                  userType === 'reseller'
-                    ? 'bg-[#2563EB] text-white shadow-md'
-                    : 'bg-[#EFF6FF] text-[#2563EB] hover:bg-[#DBEAFE]'
-                } disabled:opacity-50`}
-              >
-                Reseller
-              </button>
-            </div>
-
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
                 <div>
@@ -125,7 +104,9 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
                     label="Full Name"
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="John Doe"
                     disabled={isLoading}
                     required
@@ -138,7 +119,9 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
                   label="Email Address"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   placeholder="john@example.com"
                   disabled={isLoading}
                   required
@@ -150,7 +133,9 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
                   label="Password"
                   type="password"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                   placeholder="••••••••"
                   disabled={isLoading}
                   required
@@ -162,27 +147,29 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
                   <button
                     type="button"
                     disabled={isLoading}
-                    className="text-sm text-[#2563EB] hover:underline disabled:opacity-50"
+                    className="text-sm text-blue-600 hover:underline disabled:opacity-50"
                   >
                     Forgot Password?
                   </button>
                 </div>
               )}
 
-              <Button 
-                variant="primary" 
-                size="lg" 
-                className="w-full" 
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full"
                 type="submit"
                 disabled={isLoading}
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
                     <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    {isLogin ? 'Logging in...' : 'Creating account...'}
+                    {isLogin ? "Logging in..." : "Creating account..."}
                   </span>
+                ) : isLogin ? (
+                  "Login"
                 ) : (
-                  isLogin ? 'Login' : 'Sign Up'
+                  "Sign Up"
                 )}
               </Button>
             </form>
@@ -193,7 +180,9 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
                   <div className="w-full border-t border-[#E5E7EB]"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-[#6B7280]">Or continue with</span>
+                  <span className="px-4 bg-white text-slate-600">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
@@ -230,15 +219,17 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
               <button
                 onClick={() => {
                   setIsLogin(!isLogin);
-                  setError('');
-                  setFormData({ name: '', email: '', password: '' });
+                  setError("");
+                  setFormData({ name: "", email: "", password: "" });
                 }}
                 disabled={isLoading}
-                className="text-sm text-[#6B7280] disabled:opacity-50"
+                className="text-sm text-slate-600 disabled:opacity-50"
               >
-                {isLogin ? "Don't have an account? " : 'Already have an account? '}
-                <span className="text-[#2563EB] font-medium hover:underline">
-                  {isLogin ? 'Sign Up' : 'Login'}
+                {isLogin
+                  ? "Don't have an account? "
+                  : "Already have an account? "}
+                <span className="text-blue-600 font-medium hover:underline">
+                  {isLogin ? "Sign Up" : "Login"}
                 </span>
               </button>
             </div>

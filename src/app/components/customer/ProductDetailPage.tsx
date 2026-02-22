@@ -10,8 +10,8 @@ import {
   RotateCcw,
   Share2,
   Check,
+  ArrowLeft,
 } from "lucide-react";
-import { mockProducts } from "../../data/mockData";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
@@ -27,11 +27,11 @@ export function ProductDetailPage({
   productId,
   onNavigate,
 }: ProductDetailPageProps) {
-  const { addToCart, user } = useApp();
+  const { addToCart, user, products } = useApp();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const product = mockProducts.find((p) => p.id === productId);
+  const product = products.find((p) => p.id === productId);
 
   if (!product) {
     return (
@@ -51,14 +51,31 @@ export function ProductDetailPage({
   const getPrice = () => {
     if (user?.role === "reseller") return product.resellerPrice;
     if (product.onOffer && product.discountPrice) return product.discountPrice;
-    return product.retailPrice;
+    return product.sellingPrice || product.retailPrice;
+  };
+
+  const getDiscount = () => {
+    if (product.retailPrice && product.sellingPrice) {
+      return Math.round(
+        ((product.retailPrice - product.sellingPrice) / product.retailPrice) *
+          100,
+      );
+    }
+    if (product.onOffer && product.retailPrice && product.discountPrice) {
+      return Math.round(
+        ((product.retailPrice - product.discountPrice) / product.retailPrice) *
+          100,
+      );
+    }
+    return product.discount || 0;
   };
 
   const displayPrice = getPrice();
+  const discountPercentage = getDiscount();
   const showResellerPrice = user?.role === "reseller";
   const showOfferPrice =
     !showResellerPrice && product.onOffer && product.discountPrice;
-  const relatedProducts = mockProducts
+  const relatedProducts = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
@@ -68,29 +85,19 @@ export function ProductDetailPage({
 
   const productImages = [product.image, product.image, product.image];
 
-  const reviews = [
-    {
-      name: "Amit Kumar",
-      rating: 5,
-      comment:
-        "Excellent quality! Exceeded my expectations. Fast delivery too.",
-      date: "2 days ago",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    },
-    {
-      name: "Neha Patel",
-      rating: 4,
-      comment: "Very good product. Worth the price. Would recommend.",
-      date: "1 week ago",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-slate-50 pt-4 md:pt-6 pb-8 lg:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Back Button */}
+        <button
+          onClick={() => onNavigate("home")}
+          className="mb-6 flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          title="Back to Home"
+        >
+          <ArrowLeft size={20} />
+          Back to Home
+        </button>
+
         {/* Breadcrumb - Clean */}
         <nav className="flex items-center text-sm text-slate-500 mb-8 font-medium">
           <button
@@ -154,42 +161,39 @@ export function ProductDetailPage({
               <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-slate-900 mb-2 leading-tight">
                 {product.name}
               </h1>
-              <div className="flex items-center gap-4 text-sm text-slate-500 mb-6">
+              <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
                 <div className="flex items-center gap-1 text-amber-500">
                   <Star size={16} fill="currentColor" />
                   <span className="font-bold text-slate-900">
-                    {product.rating}
+                    {product.rating.toFixed(1)}
                   </span>
                 </div>
-                <span>•</span>
-                <span className="underline decoration-slate-300 underline-offset-4">
-                  {product.reviews} verified reviews
-                </span>
-                <span>•</span>
-                <span>SKU: {product.sku}</span>
+                {product.reviews > 0 && (
+                  <>
+                    <span>•</span>
+                    <span className="underline decoration-slate-300 underline-offset-4">
+                      {product.reviews} review{product.reviews !== 1 ? "s" : ""}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 mb-8">
               <div className="flex flex-col gap-2">
-                {showResellerPrice || showOfferPrice ? (
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900">
-                      ₹{displayPrice.toLocaleString()}
-                    </span>
-                    <span className="text-sm md:text-base text-slate-400 line-through decoration-red-400">
-                      ₹{product.retailPrice.toLocaleString()}
-                    </span>
-                    <span className="px-2 py-1 bg-red-50 text-red-600 text-xs font-bold rounded-lg whitespace-nowrap">
-                      Save ₹
-                      {(product.retailPrice - displayPrice).toLocaleString()}
-                    </span>
-                  </div>
-                ) : (
+                <div className="flex items-center gap-3">
                   <span className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900">
                     ₹{displayPrice.toLocaleString()}
                   </span>
-                )}
+                  <span className="text-sm md:text-base text-slate-400 line-through decoration-slate-400">
+                    ₹{product.retailPrice.toLocaleString()}
+                  </span>
+                  {discountPercentage > 0 && (
+                    <span className="px-3 py-1 bg-red-50 text-red-600 text-sm font-bold rounded-lg whitespace-nowrap">
+                      {discountPercentage}% OFF
+                    </span>
+                  )}
+                </div>
 
                 <div className="flex items-center gap-2 mt-2">
                   {product.stock > 10 ? (
@@ -236,21 +240,39 @@ export function ProductDetailPage({
                 </button>
               </div>
 
-              <div className="flex flex-1 gap-3">
+              <div className="flex flex-1 gap-2 items-center">
                 <Button
                   variant="primary"
-                  className="flex-1 bg-slate-900 text-white rounded-full h-12 text-base font-bold hover:bg-slate-800 shadow-xl shadow-slate-900/10 hover:shadow-2xl hover:-translate-y-0.5 transition-all"
+                  className="flex-1 bg-blue-600 text-white rounded-2xl h-12 text-base font-bold hover:bg-blue-700 shadow-lg shadow-blue-600/20 hover:shadow-xl hover:-translate-y-0.5 transition-all"
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
                 >
                   <ShoppingCart size={20} className="mr-2" /> Add to Cart
                 </Button>
-                <Button
-                  variant="outline"
-                  className="h-12 w-12 rounded-full border-slate-200 p-0 flex items-center justify-center hover:bg-slate-50"
+                <button
+                  className="h-12 w-12 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 hover:text-blue-600"
+                  title="Share Product"
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator
+                        .share({
+                          title: product.name,
+                          text: `Check out ${product.name} on GiftShop!`,
+                          url: window.location.href,
+                        })
+                        .catch((err) => console.log("Error sharing:", err));
+                    } else {
+                      // Fallback: copy to clipboard
+                      navigator.clipboard
+                        .writeText(window.location.href)
+                        .then(() => {
+                          alert("Product link copied to clipboard!");
+                        });
+                    }
+                  }}
                 >
                   <Share2 size={20} />
-                </Button>
+                </button>
               </div>
             </div>
 
@@ -288,68 +310,13 @@ export function ProductDetailPage({
           </div>
         </div>
 
-        {/* Reviews Section */}
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-slate-900">
-              Customer Reviews
-            </h2>
-            <Button variant="outline" size="sm" className="rounded-full">
-              Write a Review
-            </Button>
-          </div>
-
-          <div className="grid gap-6">
-            {reviews.map((review, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start gap-4">
-                  <img
-                    src={review.avatar}
-                    alt={review.name}
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-slate-100"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <h4 className="font-bold text-slate-900">
-                        {review.name}
-                      </h4>
-                      <span className="text-xs text-slate-400">
-                        {review.date}
-                      </span>
-                    </div>
-                    <div className="flex mb-3">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={14}
-                          className={
-                            i < review.rating
-                              ? "text-amber-400 fill-amber-400"
-                              : "text-slate-200"
-                          }
-                        />
-                      ))}
-                    </div>
-                    <p className="text-slate-600 text-sm leading-relaxed">
-                      {review.comment}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-20 border-t border-slate-200 pt-16">
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 md:mb-8 text-center">
               You May Also Like
             </h2>
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
               {relatedProducts.map((product) => (
                 <ProductCard
                   key={product.id}

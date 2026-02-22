@@ -102,9 +102,7 @@ export default function App() {
   return (
     <AppProvider>
       <div className="min-h-screen flex flex-col">
-        {currentPage.name !== "order-success" && (
-          <Navbar onNavigate={handleNavigate} currentPage={currentPage.name} />
-        )}
+        <Navbar onNavigate={handleNavigate} currentPage={currentPage.name} />
 
         <main className="flex-1 pb-28 md:pb-0">
           {currentPage.name === "home" && (
@@ -178,12 +176,10 @@ export default function App() {
         </main>
 
         {/* Bottom Mobile Navigation */}
-        {currentPage.name !== "order-success" && (
-          <BottomNavBar
-            onNavigate={handleNavigate}
-            currentPage={currentPage.name}
-          />
-        )}
+        <BottomNavBar
+          onNavigate={handleNavigate}
+          currentPage={currentPage.name}
+        />
       </div>
     </AppProvider>
   );
