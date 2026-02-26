@@ -28,10 +28,10 @@ export function TermsAndConditionsPage() {
               1. Agreement to Terms
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              By accessing and using the GiftShop website and services, you
-              accept and agree to be bound by the terms and provision of this
-              agreement. If you do not agree to abide by the above, please do
-              not use this service.
+              By accessing and using the Blue Bell Gifts website and services,
+              you accept and agree to be bound by the terms and provision of
+              this agreement. If you do not agree to abide by the above, please
+              do not use this service.
             </p>
           </section>
 
@@ -42,8 +42,8 @@ export function TermsAndConditionsPage() {
             </h2>
             <p className="text-slate-600 mb-4 leading-relaxed">
               Permission is granted to temporarily download one copy of the
-              materials (information or software) on GiftShop's website for
-              personal, non-commercial transitory viewing only. This is the
+              materials (information or software) on Blue Bell Gifts's website
+              for personal, non-commercial transitory viewing only. This is the
               grant of a license, not a transfer of title, and under this
               license you may not:
             </p>
@@ -185,11 +185,11 @@ export function TermsAndConditionsPage() {
               7. Limitation of Liability
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              GiftShop and its suppliers will not be liable for any damages
-              (including, without limitation, damages for loss of data or
-              profit, or due to business interruption) arising out of the use or
-              inability to use the materials or services, even if we have been
-              notified of the possibility of such damage.
+              Blue Bell Gifts and its suppliers will not be liable for any
+              damages (including, without limitation, damages for loss of data
+              or profit, or due to business interruption) arising out of the use
+              or inability to use the materials or services, even if we have
+              been notified of the possibility of such damage.
             </p>
           </section>
 
@@ -199,11 +199,12 @@ export function TermsAndConditionsPage() {
               8. Intellectual Property Rights
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              All content on the GiftShop website, including text, graphics,
-              logos, images, and software, is the property of GiftShop or its
-              content suppliers and is protected by international copyright
-              laws. You may not reproduce, distribute, transmit, or display any
-              content without our prior written permission.
+              All content on the Blue Bell Gifts website, including text,
+              graphics, logos, images, and software, is the property of Blue
+              Bell Gifts or its content suppliers and is protected by
+              international copyright laws. You may not reproduce, distribute,
+              transmit, or display any content without our prior written
+              permission.
             </p>
           </section>
 
@@ -213,8 +214,8 @@ export function TermsAndConditionsPage() {
               9. Third-Party Links
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              GiftShop may contain links to third-party websites. We are not
-              responsible for the content, accuracy, or practices of these
+              Blue Bell Gifts may contain links to third-party websites. We are
+              not responsible for the content, accuracy, or practices of these
               external sites. Your use of third-party websites is at your own
               risk and subject to their terms of service.
             </p>
@@ -226,9 +227,9 @@ export function TermsAndConditionsPage() {
               10. Modifications to Terms
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              GiftShop may update these terms and conditions at any time without
-              notice. Your continued use of the website following any changes
-              constitutes your acceptance of the new terms.
+              Blue Bell Gifts may update these terms and conditions at any time
+              without notice. Your continued use of the website following any
+              changes constitutes your acceptance of the new terms.
             </p>
           </section>
 
@@ -245,7 +246,7 @@ export function TermsAndConditionsPage() {
             </p>
             <p className="text-slate-600">
               <strong>Contact:</strong> For questions regarding these terms,
-              please contact support@giftshop.com
+              please contact support@bluebellgifts.in
             </p>
           </section>
         </div>

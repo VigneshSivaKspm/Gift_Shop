@@ -29,9 +29,9 @@ export function ReturnPolicyPage() {
                 No Returns Policy
               </h2>
               <p className="text-red-800 leading-relaxed">
-                GiftShop operates on a <strong>FINAL SALE BASIS</strong>. Once
-                an order has been delivered and marked as completed, NO RETURNS
-                are accepted under any circumstances.
+                Blue Bell Gifts operates on a <strong>FINAL SALE BASIS</strong>.
+                Once an order has been delivered and marked as completed, NO
+                RETURNS are accepted under any circumstances.
               </p>
             </div>
           </div>
@@ -45,9 +45,9 @@ export function ReturnPolicyPage() {
               1. Overview
             </h2>
             <p className="text-slate-600 leading-relaxed mb-4">
-              GiftShop does not accept returns on any orders after they have
-              been delivered and marked as completed. This policy applies to all
-              products, regardless of condition, packaging, or reason.
+              Blue Bell Gifts does not accept returns on any orders after they
+              have been delivered and marked as completed. This policy applies
+              to all products, regardless of condition, packaging, or reason.
             </p>
             <p className="text-slate-600 leading-relaxed">
               We recommend that customers thoroughly review product
@@ -104,8 +104,8 @@ export function ReturnPolicyPage() {
               </li>
             </ul>
             <p className="text-slate-600 italic">
-              Note: GiftShop reserves the right to determine eligibility for
-              replacement or credit based on evidence provided.
+              Note: Blue Bell Gifts reserves the right to determine eligibility
+              for replacement or credit based on evidence provided.
             </p>
           </section>
 
@@ -159,7 +159,8 @@ export function ReturnPolicyPage() {
             </p>
             <div className="space-y-3 text-slate-600">
               <p className="flex gap-2">
-                <span className="font-bold">Email:</span> support@giftshop.com
+                <span className="font-bold">Email:</span>{" "}
+                support@bluebellgifts.in
               </p>
               <p className="flex gap-2">
                 <span className="font-bold">Phone:</span> +91 98765 43210

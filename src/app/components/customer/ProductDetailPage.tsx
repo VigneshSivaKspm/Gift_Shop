@@ -257,7 +257,7 @@ export function ProductDetailPage({
                       navigator
                         .share({
                           title: product.name,
-                          text: `Check out ${product.name} on GiftShop!`,
+                          text: `Check out ${product.name} on Blue Bell Gifts!`,
                           url: window.location.href,
                         })
                         .catch((err) => console.log("Error sharing:", err));

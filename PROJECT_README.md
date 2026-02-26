@@ -1,6 +1,6 @@
-# GiftShop Frontend - Customer Website
+# Blue Bell Gifts Frontend - Customer Website
 
-This is the **Frontend** for GiftShop - a separate React project dedicated to the customer-facing e-commerce website where users can browse products, manage carts, place orders, and track shipments.
+This is the **Frontend** for Blue Bell Gifts - a separate React project dedicated to the customer-facing e-commerce website where users can browse products, manage carts, place orders, and track shipments.
 
 ## Project Structure
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useApp } from "../../context/AppContext";
 import { ProductCard } from "./ProductCard";
 import { Loader2 } from "lucide-react";
+import { SearchBar } from "../ui/SearchBar";
 
 interface HomePageProps {
   onNavigate: (page: string, params?: any) => void;
@@ -10,6 +11,7 @@ interface HomePageProps {
 export function HomePage({ onNavigate }: HomePageProps) {
   const { products, loadProducts, isLoading } = useApp();
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const loadData = async () => {
@@ -25,17 +27,23 @@ export function HomePage({ onNavigate }: HomePageProps) {
     loadData();
   }, []);
 
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description?.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
-            Featured Products
-          </h1>
-          <p className="text-lg text-slate-600">
-            Discover our amazing collection of gift items
-          </p>
+        {/* Search Bar */}
+        <div className="mb-8">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search products, categories..."
+            className="w-full md:w-96"
+          />
         </div>
 
         {/* Products Grid */}
@@ -46,9 +54,9 @@ export function HomePage({ onNavigate }: HomePageProps) {
               <p className="text-slate-600">Loading products...</p>
             </div>
           </div>
-        ) : products.length > 0 ? (
+        ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -60,10 +68,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
               <p className="text-lg text-slate-600 mb-4">
-                No products available
+                {products.length === 0
+                  ? "No products available"
+                  : "No products match your search"}
               </p>
               <p className="text-sm text-slate-500">
-                Check back soon for new items!
+                {products.length === 0
+                  ? "Check back soon for new items!"
+                  : "Try adjusting your search terms"}
               </p>
             </div>
           </div>

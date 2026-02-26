@@ -29,9 +29,9 @@ export function RefundPolicyPage() {
                 No Refunds on Completed Orders
               </h2>
               <p className="text-red-800 leading-relaxed">
-                GiftShop operates on a <strong>FINAL SALE BASIS</strong>. Once
-                an order has been marked as completed and delivered, NO REFUNDS
-                will be issued under any circumstances.
+                Blue Bell Gifts operates on a <strong>FINAL SALE BASIS</strong>.
+                Once an order has been marked as completed and delivered, NO
+                REFUNDS will be issued under any circumstances.
               </p>
             </div>
           </div>
@@ -137,8 +137,8 @@ export function RefundPolicyPage() {
             </p>
             <ul className="space-y-2 text-slate-600 ml-4 mb-4">
               <li>
-                • GiftShop is responsible for product defects (case-by-case
-                evaluation)
+                • Blue Bell Gifts is responsible for product defects
+                (case-by-case evaluation)
               </li>
               <li>
                 • Technical/payment errors on our platform caused duplicate
@@ -149,8 +149,8 @@ export function RefundPolicyPage() {
               </li>
             </ul>
             <p className="text-slate-600 italic">
-              In such cases, GiftShop may offer store credit instead of cash
-              refund at our discretion.
+              In such cases, Blue Bell Gifts may offer store credit instead of
+              cash refund at our discretion.
             </p>
           </section>
 
@@ -179,7 +179,8 @@ export function RefundPolicyPage() {
               6. Store Credit Option
             </h2>
             <p className="text-slate-600 mb-4">
-              In situations where GiftShop determines a refund may be warranted:
+              In situations where Blue Bell Gifts determines a refund may be
+              warranted:
             </p>
             <ul className="space-y-2 text-slate-600 ml-4">
               <li>
@@ -201,8 +202,8 @@ export function RefundPolicyPage() {
               7. Fraud & Chargeback Policy
             </h2>
             <p className="text-slate-600 mb-4">
-              Customers who attempt to defraud GiftShop through false refund
-              claims or chargebacks:
+              Customers who attempt to defraud Blue Bell Gifts through false
+              refund claims or chargebacks:
             </p>
             <ul className="space-y-2 text-slate-600 ml-4">
               <li>• Will have their account permanently terminated</li>
@@ -225,7 +226,8 @@ export function RefundPolicyPage() {
             </p>
             <div className="space-y-3 text-slate-600">
               <p className="flex gap-2">
-                <span className="font-bold">Email:</span> support@giftshop.com
+                <span className="font-bold">Email:</span>{" "}
+                support@bluebellgifts.in
               </p>
               <p className="flex gap-2">
                 <span className="font-bold">Phone:</span> +91 98765 43210

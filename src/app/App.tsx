@@ -158,8 +158,8 @@ export default function App() {
           {currentPage.name === "about" && (
             <StaticPage
               pageId="about"
-              defaultTitle="About GiftShop"
-              defaultContent="<p>Welcome to GiftShop...</p>"
+              defaultTitle="About Blue Bell Gifts"
+              defaultContent="<p>Welcome to Blue Bell Gifts...</p>"
             />
           )}
 

@@ -100,7 +100,7 @@ export function ContactPage() {
                     Email Address
                   </h3>
                   <p className="text-slate-600">
-                    {settings?.contactEmail || "support@giftshop.com"}
+                    {settings?.contactEmail || "support@bluebellgifts.in"}
                   </p>
                 </div>
               </div>

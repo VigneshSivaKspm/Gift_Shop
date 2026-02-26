@@ -28,9 +28,9 @@ export function CancellationPolicyPage() {
               1. Cancellation Overview
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              GiftShop understands that circumstances change. If you need to
-              cancel your order, you have a limited window to do so. Once your
-              order has been shipped, cancellation is no longer possible.
+              Blue Bell Gifts understands that circumstances change. If you need
+              to cancel your order, you have a limited window to do so. Once
+              your order has been shipped, cancellation is no longer possible.
             </p>
           </section>
 
@@ -77,9 +77,9 @@ export function CancellationPolicyPage() {
                   Step 1: Contact Us Immediately
                 </h3>
                 <p className="text-slate-600">
-                  Send a cancellation request to support@giftshop.com with your
-                  order number. Include "URGENT CANCELLATION" in the subject
-                  line.
+                  Send a cancellation request to support@bluebellgifts.in with
+                  your order number. Include "URGENT CANCELLATION" in the
+                  subject line.
                 </p>
               </div>
 
@@ -205,10 +205,10 @@ export function CancellationPolicyPage() {
           {/* Automatic Cancellation */}
           <section className="bg-white rounded-2xl p-8 border border-slate-100 shadow-lg">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">
-              7. Automatic Cancellation by GiftShop
+              7. Automatic Cancellation by Blue Bell Gifts
             </h2>
-            <p className="text-slate-600 mb-4">
-              GiftShop may cancel orders in the following situations:
+            <p className="text-slate-600 leading-relaxed">
+              Blue Bell Gifts may cancel orders in the following situations:
             </p>
             <ul className="space-y-2 text-slate-600 ml-4">
               <li>• Payment fails or is declined</li>
@@ -258,8 +258,8 @@ export function CancellationPolicyPage() {
             </p>
             <div className="space-y-3 text-slate-600">
               <p className="flex gap-2">
-                <span className="font-bold">Email:</span> support@giftshop.com
-                (Subject: URGENT CANCELLATION)
+                <span className="font-bold">Email:</span>{" "}
+                support@bluebellgifts.in (Subject: URGENT CANCELLATION)
               </p>
               <p className="flex gap-2">
                 <span className="font-bold">Phone:</span> +91 98765 43210

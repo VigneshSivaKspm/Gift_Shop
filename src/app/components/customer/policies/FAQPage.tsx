@@ -7,15 +7,15 @@ const FAQItems = [
     items: [
       {
         q: "Can I return or refund my order?",
-        a: "No. GiftShop operates on a final sale basis. Once an order is delivered and marked as completed, no returns or refunds are accepted. Please carefully review product details before purchasing.",
+        a: "No. Blue Bell Gifts operates on a final sale basis. Once an order is delivered and marked as completed, no returns or refunds are accepted. Please carefully review product details before purchasing.",
       },
       {
         q: "Can I cancel my order?",
-        a: "Orders can only be cancelled within 2 hours of placement and before shipping begins. Contact us immediately at support@giftshop.com to request cancellation. After 2 hours, your order enters processing and cannot be cancelled.",
+        a: "Orders can only be cancelled within 2 hours of placement and before shipping begins. Contact us immediately at support@bluebellgifts.in to request cancellation. After 2 hours, your order enters processing and cannot be cancelled.",
       },
       {
         q: "What if I received a damaged product?",
-        a: "Report damaged items within 24 hours of delivery with photos/videos. GiftShop may offer a replacement or store credit after assessment. This must be reported within the 24-hour window.",
+        a: "Report damaged items within 24 hours of delivery with photos/videos. Blue Bell Gifts may offer a replacement or store credit after assessment. This must be reported within the 24-hour window.",
       },
       {
         q: "What if I received the wrong item?",
@@ -36,7 +36,7 @@ const FAQItems = [
       },
       {
         q: "Can I change my delivery address?",
-        a: "Yes, but only within 2 hours of order placement. Contact support@giftshop.com immediately with URGENT CHANGE in the subject line.",
+        a: "Yes, but only within 2 hours of order placement. Contact support@bluebellgifts.in immediately with URGENT CHANGE in the subject line.",
       },
       {
         q: "How do I track my order?",
@@ -78,7 +78,7 @@ const FAQItems = [
       },
       {
         q: "Can I delete my account?",
-        a: "Yes, you can request account deletion. However, order history is retained for compliance. Contact support@giftshop.com for deletion requests.",
+        a: "Yes, you can request account deletion. However, order history is retained for compliance. Contact support@bluebellgifts.in for deletion requests.",
       },
       {
         q: "How do I unsubscribe from emails?",
@@ -111,7 +111,7 @@ const FAQItems = [
       },
       {
         q: "Do you accept bulk orders?",
-        a: "Yes, contact our corporate team at corporate@giftshop.com for bulk orders and special pricing.",
+        a: "Yes, contact our corporate team at corporate@bluebellgifts.in for bulk orders and special pricing.",
       },
     ],
   },
@@ -132,7 +132,7 @@ const FAQItems = [
       },
       {
         q: "Can I request my data?",
-        a: "Yes, write to privacy@giftshop.com to request a copy of your personal data we hold.",
+        a: "Yes, write to privacy@bluebellgifts.in to request a copy of your personal data we hold.",
       },
     ],
   },
@@ -145,7 +145,7 @@ const FAQItems = [
       },
       {
         q: "I didn't receive my order. What do I do?",
-        a: "Check your tracking status. If marked delivered but not received, file a complaint with the delivery partner immediately. Contact support@giftshop.com.",
+        a: "Check your tracking status. If marked delivered but not received, file a complaint with the delivery partner immediately. Contact support@bluebellgifts.in.",
       },
       {
         q: "Why is my order taking longer than expected?",
@@ -181,7 +181,7 @@ export function FAQPage() {
               Frequently Asked Questions
             </h1>
             <p className="text-sm md:text-base text-slate-600 mt-2">
-              Find answers to your questions about GiftShop
+              Find answers to your questions about Blue Bell Gifts
             </p>
           </div>
         </div>
@@ -247,7 +247,7 @@ export function FAQPage() {
           </p>
           <div className="space-y-3 text-slate-600">
             <p className="flex gap-2 justify-center">
-              <span className="font-bold">Email:</span> support@giftshop.com
+              <span className="font-bold">Email:</span> support@bluebellgifts.in
             </p>
             <p className="flex gap-2 justify-center">
               <span className="font-bold">Phone:</span> +91 98765 43210

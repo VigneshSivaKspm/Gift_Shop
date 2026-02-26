@@ -28,9 +28,9 @@ export function ShippingPolicyPage() {
               1. Shipping Overview
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              GiftShop ships premium gifts nationwide across India with secure
-              packaging and reliable delivery partners. We ensure your gifts
-              arrive in perfect condition.
+              Blue Bell Gifts ships premium gifts nationwide across India with
+              secure packaging and reliable delivery partners. We ensure your
+              gifts arrive in perfect condition.
             </p>
           </section>
 
@@ -200,8 +200,8 @@ export function ShippingPolicyPage() {
               <li>• Carrier information and contact details</li>
             </ul>
             <p className="text-slate-600">
-              Log into your GiftShop account to view complete order and delivery
-              history.
+              Log into your Blue Bell Gifts account to view complete order and
+              delivery history.
             </p>
           </section>
 
@@ -240,8 +240,8 @@ export function ShippingPolicyPage() {
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <p className="text-sm text-slate-700">
                 <strong>Note:</strong> Incorrect or incomplete addresses may
-                result in delivery delays or failed delivery. GiftShop is not
-                responsible for lost packages due to incorrect addresses.
+                result in delivery delays or failed delivery. Blue Bell Gifts is
+                not responsible for lost packages due to incorrect addresses.
               </p>
             </div>
           </section>
@@ -284,8 +284,8 @@ export function ShippingPolicyPage() {
               10. International Shipping
             </h2>
             <p className="text-slate-600 mb-4">
-              Currently, GiftShop ships to select international destinations.
-              For international orders:
+              Currently, Blue Bell Gifts ships to select international
+              destinations. For international orders:
             </p>
             <ul className="space-y-2 text-slate-600 ml-4 mb-4">
               <li>• Minimum order value: ₹2,000</li>
@@ -305,7 +305,8 @@ export function ShippingPolicyPage() {
             </p>
             <div className="space-y-3 text-slate-600">
               <p className="flex gap-2">
-                <span className="font-bold">Email:</span> shipping@giftshop.com
+                <span className="font-bold">Email:</span>{" "}
+                shipping@bluebellgifts.in
               </p>
               <p className="flex gap-2">
                 <span className="font-bold">Phone:</span> +91 98765 43210

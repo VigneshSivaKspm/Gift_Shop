@@ -138,21 +138,16 @@ export function Navbar({ onNavigate, currentPage }: NavbarProps) {
                 onClick={() => onNavigate("home")}
                 className="flex items-center gap-2 group outline-none"
               >
-                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform duration-300">
-                  <Sparkles size={18} className="fill-white/20" />
-                </div>
-                <div className="text-left">
-                  <h1
-                    className={`font-bold text-slate-900 leading-none tracking-tight transition-all ${scrolled ? "text-lg" : "text-xl"}`}
-                  >
-                    GiftShop
-                  </h1>
-                  <p
-                    className={`text-[10px] font-bold text-slate-400 uppercase tracking-widest transition-all ${scrolled ? "h-0 opacity-0 overflow-hidden" : "h-auto opacity-100"}`}
-                  >
-                    Premium Global
-                  </p>
-                </div>
+                <img
+                  src="/logo.png"
+                  alt="Blue Bell Gifts Logo"
+                  className="w-8 h-8 md:w-10 md:h-10 object-contain group-hover:scale-105 transition-transform duration-300 shadow-lg shadow-blue-200/50 rounded-lg"
+                />
+                <img
+                  src="/banner.png"
+                  alt="Blue Bell Gifts"
+                  className="h-6 md:h-8 object-contain transition-transform duration-300 group-hover:scale-105"
+                />
               </button>
             </div>
 
@@ -284,17 +279,16 @@ export function Navbar({ onNavigate, currentPage }: NavbarProps) {
         {/* Drawer Header */}
         <div className="p-6 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
-              <Sparkles size={20} />
-            </div>
-            <div>
-              <h2 className="font-bold text-xl text-slate-900 leading-none">
-                GiftShop
-              </h2>
-              <p className="text-xs text-slate-400 font-medium tracking-wide uppercase mt-1">
-                Premium Store
-              </p>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Blue Bell Gifts Logo"
+              className="w-10 h-10 object-contain shadow-lg shadow-blue-200/50 rounded-lg"
+            />
+            <img
+              src="/banner.png"
+              alt="Blue Bell Gifts"
+              className="h-8 object-contain"
+            />
           </div>
           <button
             onClick={() => setMobileMenuOpen(false)}

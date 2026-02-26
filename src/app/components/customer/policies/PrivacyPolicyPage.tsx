@@ -28,7 +28,7 @@ export function PrivacyPolicyPage() {
               Introduction
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              GiftShop ("we," "us," "our," or "Company") is committed to
+              Blue Bell Gifts ("we," "us," "our," or "Company") is committed to
               protecting your privacy. This Privacy Policy explains how we
               collect, use, disclose, and safeguard your information when you
               visit our website and use our services.
@@ -197,7 +197,7 @@ export function PrivacyPolicyPage() {
               practices, please contact us at:
             </p>
             <div className="space-y-2 text-slate-600">
-              <p>Email: privacy@giftshop.com</p>
+              <p>Email: privacy@bluebellgifts.in</p>
               <p>Address: Mumbai, Maharashtra, India</p>
             </div>
           </section>

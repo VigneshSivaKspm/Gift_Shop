@@ -110,67 +110,41 @@ export function ProductCard({ product, onNavigate }: ProductCardProps) {
           </button>
         </div>
 
-        {/* Content Section - Responsive padding and grows to fill */}
-        <CardContent className="p-2.5 sm:p-3 md:p-4 flex flex-col flex-grow bg-white relative">
-          {/* Product Name - Responsive text size */}
-          <h3 className="font-bold text-slate-900 mb-1 sm:mb-1.5 line-clamp-2 text-sm sm:text-base leading-tight group-hover:text-blue-600 transition-colors">
+        {/* Content Section - Ultra slim padding to maximize space */}
+        <CardContent className="flex flex-col flex-grow bg-white relative gap-1 !px-1.5 !py-2 sm:!px-2 sm:!py-2.5">
+          {/* Product Name */}
+          <h3 className="font-bold text-slate-900 line-clamp-1 text-[11px] sm:text-xs leading-tight group-hover:text-blue-600 transition-colors px-0.5">
             {product.name}
           </h3>
 
-          {/* Description Preview - Hidden on mobile, shown on tablet+ */}
-          {product.description && (
-            <p className="hidden sm:block text-[10px] sm:text-xs text-slate-600 line-clamp-2 mb-1 sm:mb-1.5">
-              {product.description}
-            </p>
-          )}
+          {/* Hide descriptive elements */}
+          <div className="hidden">
+            {product.description && (
+              <p className="text-[9px] text-slate-500 line-clamp-1 italic">
+                {product.description.substring(0, 30)}...
+              </p>
+            )}
+          </div>
 
-          {/* Tags Display - Responsive */}
-          {product.tags && product.tags.length > 0 && (
-            <div className="hidden sm:flex flex-wrap gap-0.5 mb-1 sm:mb-1.5">
-              {product.tags.slice(0, 2).map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[8px] sm:text-[9px] px-1.5 sm:px-2 py-0.5 rounded-full bg-slate-100 text-slate-700"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Price & Stock Section - Responsive */}
-          <div className="mt-auto pt-1.5 sm:pt-2 border-t border-slate-200 space-y-1.5 sm:space-y-2">
-            {/* Price Row */}
-            <div className="flex items-baseline gap-1 sm:gap-2">
-              <span className="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-900">
+          {/* Price & Stock area */}
+          <div className="mt-auto px-0.5 pt-1.5 border-t border-slate-50 flex flex-col items-center gap-1.5">
+            <div className="flex items-center justify-between w-full">
+              <span className="text-xs sm:text-sm font-black text-slate-900">
                 ₹{displayPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-[9px] sm:text-xs text-slate-600 line-through decoration-slate-400">
+              <span className="text-[9px] text-slate-400 line-through">
                 ₹{product.retailPrice.toLocaleString("en-IN")}
               </span>
-              {showResellerBadge && (
-                <span className="text-[8px] sm:text-[10px] font-bold text-amber-600 uppercase tracking-tight ml-auto">
-                  Reseller
-                </span>
-              )}
             </div>
 
-            {/* Add to Cart Button - Responsive size and padding */}
-            <Button
-              variant="primary"
-              size="sm"
+            <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="w-full h-8 sm:h-9 md:h-10 text-xs sm:text-sm"
+              className="w-full flex items-center justify-center gap-1 py-1.5 px-0.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[10px] sm:text-[11px] font-bold transition-all shadow-sm uppercase overflow-hidden"
             >
-              <ShoppingCart size={14} className="sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">
-                {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-              </span>
-              <span className="sm:hidden">
-                {product.stock === 0 ? "OOS" : "Add"}
-              </span>
-            </Button>
+              <ShoppingCart size={11} className="shrink-0" />
+              <span className="truncate">{product.stock === 0 ? "OOS" : "Add"}</span>
+            </button>
           </div>
         </CardContent>
       </Card>
