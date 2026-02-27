@@ -3,12 +3,15 @@ import { useApp } from "../../context/AppContext";
 import { ProductCard } from "./ProductCard";
 import { Loader2 } from "lucide-react";
 import { SearchBar } from "../ui/SearchBar";
+import { FilterState, SortOption } from "./SortAndFilter";
 
 interface HomePageProps {
   onNavigate: (page: string, params?: any) => void;
+  filters?: FilterState;
+  sortBy?: SortOption;
 }
 
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage({ onNavigate, filters, sortBy }: HomePageProps) {
   const { products, loadProducts, isLoading } = useApp();
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,11 +30,53 @@ export function HomePage({ onNavigate }: HomePageProps) {
     loadData();
   }, []);
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.description?.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredProducts = products
+    .filter((product) => {
+      // Search query filter
+      const matchesSearch =
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      if (!matchesSearch) return false;
+
+      // Other filters
+      if (filters) {
+        if (
+          product.sellingPrice < filters.minPrice ||
+          product.sellingPrice > filters.maxPrice
+        )
+          return false;
+        if (
+          filters.categories.length > 0 &&
+          !filters.categories.includes(product.category)
+        )
+          return false;
+        if (filters.ratings.length > 0) {
+          const minRating = Math.min(...filters.ratings);
+          if (product.rating < minRating) return false;
+        }
+        if (filters.onOffer && !product.onOffer) return false;
+        if (filters.inStock && product.stock <= 0) return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (!sortBy) return 0;
+      switch (sortBy) {
+        case "price-low":
+          return a.sellingPrice - b.sellingPrice;
+        case "price-high":
+          return b.sellingPrice - a.sellingPrice;
+        case "rating":
+          return b.rating - a.rating;
+        case "popular":
+          return b.reviews - a.reviews;
+        case "newest":
+        default:
+          return 0; // Assuming newest is handled by default order or if there was a date
+      }
+    });
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pb-20">

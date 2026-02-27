@@ -6,12 +6,19 @@ import {
   getProductsByCategory,
 } from "../../services/firestore-service";
 import { Category, Product } from "../../types";
+import { FilterState, SortOption } from "./SortAndFilter";
 
 interface CategoriesPageProps {
   onNavigate: (page: string, params?: any) => void;
+  filters?: FilterState;
+  sortBy?: SortOption;
 }
 
-export function CategoriesPage({ onNavigate }: CategoriesPageProps) {
+export function CategoriesPage({
+  onNavigate,
+  filters,
+  sortBy,
+}: CategoriesPageProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -67,6 +74,54 @@ export function CategoriesPage({ onNavigate }: CategoriesPageProps) {
   const selectedCategoryData = categories.find(
     (cat) => cat.name === selectedCategory,
   );
+
+  const filteredAndSortedProducts = products
+    .filter((product) => {
+      // Search query filter (optional in categories page as top search bar is there)
+      const matchesSearch =
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      if (!matchesSearch) return false;
+
+      // Other filters
+      if (filters) {
+        if (
+          product.sellingPrice < filters.minPrice ||
+          product.sellingPrice > filters.maxPrice
+        )
+          return false;
+        // In categories page, category is already filtered by sidebar, but drawer can narrow it further
+        if (
+          filters.categories.length > 0 &&
+          !filters.categories.includes(product.category)
+        )
+          return false;
+        if (filters.ratings.length > 0) {
+          const minRating = Math.min(...filters.ratings);
+          if (product.rating < minRating) return false;
+        }
+        if (filters.onOffer && !product.onOffer) return false;
+        if (filters.inStock && product.stock <= 0) return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (!sortBy) return 0;
+      switch (sortBy) {
+        case "price-low":
+          return a.sellingPrice - b.sellingPrice;
+        case "price-high":
+          return b.sellingPrice - a.sellingPrice;
+        case "rating":
+          return b.rating - a.rating;
+        case "popular":
+          return b.reviews - a.reviews;
+        default:
+          return 0;
+      }
+    });
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-slate-50 to-white flex flex-col overflow-hidden">
@@ -157,9 +212,9 @@ export function CategoriesPage({ onNavigate }: CategoriesPageProps) {
                   />
                 ))}
               </div>
-            ) : products.length > 0 ? (
+            ) : filteredAndSortedProducts.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 pb-4">
-                {products.map((product) => (
+                {filteredAndSortedProducts.map((product) => (
                   <ProductCard
                     key={product.id}
                     product={product}

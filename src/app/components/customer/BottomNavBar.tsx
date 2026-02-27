@@ -19,7 +19,7 @@ export function BottomNavBar({ onNavigate, currentPage }: BottomNavBarProps) {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden pointer-events-none pb-3 px-3">
+    <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden pointer-events-none pb-3 px-3">
       {/* Premium White Bottom Navigation */}
       <nav className="pointer-events-auto bg-white shadow-2xl border border-slate-100 rounded-3xl mx-auto max-w-md overflow-hidden">
         <div className="flex items-center justify-between h-20 px-1">

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { AppProvider } from "./context/AppContext";
 import { auth } from "./services/firebase-config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { isProfileComplete } from "./services/firestore-service";
@@ -20,6 +19,13 @@ import { WishlistPage } from "./components/customer/WishlistPage";
 import { ContactPage } from "./components/customer/ContactPage";
 import { StaticPage } from "./components/customer/StaticPage";
 import { ProfileCompletionPage } from "./components/customer/ProfileCompletionPage";
+import {
+  SortAndFilter,
+  FilterTrigger,
+  FilterState,
+  SortOption,
+} from "./components/customer/SortAndFilter";
+import { useApp } from "./context/AppContext";
 
 // Auth Components
 import { LoginPage } from "./components/auth/LoginPage";
@@ -39,8 +45,33 @@ type Page = {
 };
 
 export default function App() {
+  const { categories, products } = useApp();
   const [currentPage, setCurrentPage] = useState<Page>({ name: "home" });
   const [checkingProfile, setCheckingProfile] = useState(false);
+
+  // Filter State
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState>({
+    minPrice: 0,
+    maxPrice: 10000,
+    categories: [],
+    ratings: [],
+    onOffer: false,
+    inStock: false,
+  });
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
+
+  const maxPriceLimit =
+    products.length > 0
+      ? Math.max(...products.map((p) => p.sellingPrice))
+      : 10000;
+
+  useEffect(() => {
+    // If maxPrice is still 10000 but our products have higher prices, update it
+    if (filters.maxPrice === 10000 && maxPriceLimit > 10000) {
+      setFilters((prev) => ({ ...prev, maxPrice: maxPriceLimit }));
+    }
+  }, [maxPriceLimit]);
 
   useEffect(() => {
     // Check if user is logged in and if profile is complete
@@ -100,87 +131,126 @@ export default function App() {
   };
 
   return (
-    <AppProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar onNavigate={handleNavigate} currentPage={currentPage.name} />
+    <div className="min-h-screen flex flex-col">
+      <Navbar onNavigate={handleNavigate} currentPage={currentPage.name} />
 
-        <main className="flex-1 pb-28 md:pb-0">
-          {currentPage.name === "home" && (
-            <HomePage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "categories" && (
-            <CategoriesPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "products" && (
-            <ProductListPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "product-detail" && (
-            <ProductDetailPage
-              productId={currentPage.params?.productId}
-              onNavigate={handleNavigate}
-            />
-          )}
-          {currentPage.name === "cart" && (
-            <CartPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "checkout" && (
-            <CheckoutPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "order-success" && (
-            <OrderSuccessPage
-              orderId={currentPage.params?.orderId}
-              onNavigate={handleNavigate}
-            />
-          )}
-          {currentPage.name === "account" && (
-            <AccountPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "track-order" && (
-            <TrackOrderPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "wishlist" && (
-            <WishlistPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "login" && (
-            <LoginPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "profile-completion" && (
-            <ProfileCompletionPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "search" && (
-            <ProductListPage onNavigate={handleNavigate} />
-          )}
-          {currentPage.name === "orders" && (
-            <AccountPage onNavigate={handleNavigate} />
-          )}
+      <main className="flex-1 pb-28 md:pb-0">
+        {currentPage.name === "home" && (
+          <HomePage
+            onNavigate={handleNavigate}
+            filters={filters}
+            sortBy={sortBy}
+          />
+        )}
+        {currentPage.name === "categories" && (
+          <CategoriesPage
+            onNavigate={handleNavigate}
+            filters={filters}
+            sortBy={sortBy}
+          />
+        )}
+        {currentPage.name === "products" && (
+          <ProductListPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "product-detail" && (
+          <ProductDetailPage
+            productId={currentPage.params?.productId}
+            onNavigate={handleNavigate}
+          />
+        )}
+        {currentPage.name === "cart" && (
+          <CartPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "checkout" && (
+          <CheckoutPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "order-success" && (
+          <OrderSuccessPage
+            orderId={currentPage.params?.orderId}
+            onNavigate={handleNavigate}
+          />
+        )}
+        {currentPage.name === "account" && (
+          <AccountPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "track-order" && (
+          <TrackOrderPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "wishlist" && (
+          <WishlistPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "login" && (
+          <LoginPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "profile-completion" && (
+          <ProfileCompletionPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "search" && (
+          <ProductListPage onNavigate={handleNavigate} />
+        )}
+        {currentPage.name === "orders" && (
+          <AccountPage onNavigate={handleNavigate} />
+        )}
 
-          {/* Static Pages */}
-          {currentPage.name === "about" && (
-            <StaticPage
-              pageId="about"
-              defaultTitle="About Blue Bell Gifts"
-              defaultContent="<p>Welcome to Blue Bell Gifts...</p>"
-            />
-          )}
+        {/* Static Pages */}
+        {currentPage.name === "about" && (
+          <StaticPage
+            pageId="about"
+            defaultTitle="About Blue Bell Gifts"
+            defaultContent="<p>Welcome to Blue Bell Gifts...</p>"
+          />
+        )}
 
-          {currentPage.name === "contact" && <ContactPage />}
+        {currentPage.name === "contact" && <ContactPage />}
 
-          {/* Policy Pages */}
-          {currentPage.name === "terms" && <TermsAndConditionsPage />}
-          {currentPage.name === "privacy" && <PrivacyPolicyPage />}
-          {currentPage.name === "refund" && <RefundPolicyPage />}
-          {currentPage.name === "return" && <ReturnPolicyPage />}
-          {currentPage.name === "cancellation" && <CancellationPolicyPage />}
-          {currentPage.name === "shipping" && <ShippingPolicyPage />}
-          {currentPage.name === "faq" && <FAQPage />}
-        </main>
+        {/* Policy Pages */}
+        {currentPage.name === "terms" && <TermsAndConditionsPage />}
+        {currentPage.name === "privacy" && <PrivacyPolicyPage />}
+        {currentPage.name === "refund" && <RefundPolicyPage />}
+        {currentPage.name === "return" && <ReturnPolicyPage />}
+        {currentPage.name === "cancellation" && <CancellationPolicyPage />}
+        {currentPage.name === "shipping" && <ShippingPolicyPage />}
+        {currentPage.name === "faq" && <FAQPage />}
+      </main>
 
-        {/* Bottom Mobile Navigation */}
-        <BottomNavBar
-          onNavigate={handleNavigate}
-          currentPage={currentPage.name}
-        />
-      </div>
-    </AppProvider>
+      {/* Filter Trigger Button - Only for Home and Categories */}
+      {(currentPage.name === "home" || currentPage.name === "categories") && (
+        <>
+          <FilterTrigger
+            onClick={() => {
+              setIsFilterOpen(true);
+            }}
+            isOpen={isFilterOpen}
+            activeFiltersCount={
+              (filters.categories.length > 0 ? 1 : 0) +
+              (filters.ratings.length > 0 ? 1 : 0) +
+              (filters.minPrice > 0 || filters.maxPrice < 10000 ? 1 : 0) +
+              (filters.onOffer ? 1 : 0) +
+              (filters.inStock ? 1 : 0)
+            }
+          />
+        </>
+      )}
+
+      {/* Sort & Filter Drawer */}
+      <SortAndFilter
+        isOpen={isFilterOpen}
+        onOpenChange={(newOpen) => {
+          setIsFilterOpen(newOpen);
+        }}
+        filters={filters}
+        onFiltersChange={setFilters}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
+        categories={categories}
+        maxPriceLimit={Math.max(1000, maxPriceLimit)}
+      />
+
+      {/* Bottom Mobile Navigation */}
+      <BottomNavBar
+        onNavigate={handleNavigate}
+        currentPage={currentPage.name}
+      />
+    </div>
   );
 }
