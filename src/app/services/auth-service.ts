@@ -20,6 +20,7 @@ import {
   createOrUpdateUserInFirestore,
   createOrUpdateCustomerProfile,
   getCustomerProfile,
+  getUserById,
 } from "./firestore-service";
 
 // Sign up with email and password
@@ -153,18 +154,37 @@ export function getCurrentUser(callback: (user: User | null) => void) {
 
 // Internal: Get user from Firebase
 async function getUserFromAuth(firebaseUser: FirebaseUser): Promise<User> {
-  const user: User = {
-    id: firebaseUser.uid,
-    name: firebaseUser.displayName || "User",
-    email: firebaseUser.email || "",
-    role: "customer", // Default role - fetch from Firestore in production
-    phone: firebaseUser.phoneNumber || "",
-    addresses: [],
-  };
+  try {
+    // First try to fetch the user from Firestore to get the actual role and data
+    const firestoreUser = await getUserById(firebaseUser.uid);
 
-  // This should fetch from Firestore to get the actual role and other data
-  // For now, returning basic user data
-  return user;
+    if (firestoreUser) {
+      return firestoreUser;
+    }
+
+    // Fallback: If user doesn't exist in Firestore yet, create basic user object
+    // This shouldn't happen in normal flow, but keeping as safety net
+    const user: User = {
+      id: firebaseUser.uid,
+      name: firebaseUser.displayName || "User",
+      email: firebaseUser.email || "",
+      role: "customer",
+      phone: firebaseUser.phoneNumber || "",
+      addresses: [],
+    };
+    return user;
+  } catch (error) {
+    console.error("Error fetching user from Firestore:", error);
+    // Fallback user object if Firestore fetch fails
+    return {
+      id: firebaseUser.uid,
+      name: firebaseUser.displayName || "User",
+      email: firebaseUser.email || "",
+      role: "customer",
+      phone: firebaseUser.phoneNumber || "",
+      addresses: [],
+    };
+  }
 }
 
 // Sign out
@@ -191,13 +211,14 @@ export async function updateUserEmail(newEmail: string): Promise<void> {
     const user = auth.currentUser;
     if (user) {
       await updateEmail(user, newEmail);
-      // Update in Firestore as well
-      await createOrUpdateUserInFirestore({
-        id: user.uid,
-        name: user.displayName || "",
-        email: newEmail,
-        role: "customer",
-      });
+      // Fetch current user data from Firestore to preserve role and other data
+      const firestoreUser = await getUserById(user.uid);
+      if (firestoreUser) {
+        await createOrUpdateUserInFirestore({
+          ...firestoreUser,
+          email: newEmail,
+        });
+      }
     }
   } catch (error: any) {
     throw new Error(error.message);
