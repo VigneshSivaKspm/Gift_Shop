@@ -135,46 +135,50 @@ export function CategoriesPage({
         />
       </div>
 
-      {/* Main Content Area - 1/3 categories, 2/3 products */}
+      {/* Main Content Area - compact categories, wide products */}
       <div className="flex-1 flex min-h-0">
-        {/* LEFT SIDEBAR - Categories (1/3 width) */}
-        <div className="flex flex-col w-1/3 flex-shrink-0 border-r border-slate-200 bg-white overflow-hidden">
+        {/* LEFT SIDEBAR - Categories (Fixed Width) */}
+        <div className="flex flex-col w-[100px] sm:w-[120px] flex-shrink-0 border-r border-slate-200 bg-white overflow-hidden shadow-sm">
           {/* Categories List - Scrollable */}
           <div className="flex-1 overflow-y-auto">
             {loading ? (
-              <div className="p-4 space-y-3">
-                {Array.from({ length: 8 }).map((_, i) => (
+              <div className="p-2 space-y-2">
+                {Array.from({ length: 12 }).map((_, i) => (
                   <div
                     key={i}
-                    className="h-16 bg-slate-100 rounded-xl animate-pulse"
+                    className="h-12 bg-slate-100 rounded-lg animate-pulse"
                   />
                 ))}
               </div>
             ) : categories.length > 0 ? (
-              <div className="p-3 space-y-2">
+              <div className="p-1.5 space-y-1.5 focus:outline-none">
                 {categories.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.name)}
-                    className={`w-full text-left rounded-xl transition-all duration-200 group overflow-hidden ${
+                    className={`w-full flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-200 group ${
                       selectedCategory === category.name
-                        ? "ring-2 ring-blue-500 shadow-md"
-                        : "hover:bg-slate-50"
+                        ? "bg-blue-50 text-blue-600 ring-1 ring-blue-100"
+                        : "hover:bg-slate-50 text-slate-700"
                     }`}
                   >
-                    <div className="flex flex-col">
-                      {category.image && (
+                    {category.image && (
+                      <div className={`flex-shrink-0 w-12 h-12 rounded-full overflow-hidden bg-slate-100 border-2 transition-transform duration-200 group-active:scale-95 ${
+                        selectedCategory === category.name ? "border-blue-500 shadow-sm" : "border-slate-100"
+                      }`}>
                         <img
                           src={category.image}
                           alt={category.name}
-                          className="w-full h-24 object-cover"
+                          className="w-full h-full object-cover"
                         />
-                      )}
-                      <div className="p-3">
-                        <p className="text-sm font-semibold truncate text-slate-900">
-                          {category.name}
-                        </p>
                       </div>
+                    )}
+                    <div className="text-center min-w-0">
+                      <p className={`text-[11px] font-bold leading-tight break-words ${
+                        selectedCategory === category.name ? "text-blue-600" : "text-slate-600"
+                      }`}>
+                        {category.name}
+                      </p>
                     </div>
                   </button>
                 ))}
